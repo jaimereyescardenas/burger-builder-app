@@ -6,9 +6,11 @@ import Auxiliary from '../Auxiliary/Auxiliary';
 const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
 
-        constructor (props) {
+        state = {
+            error: null
+        }
 
-            super(props);
+        componentDidMount () {
 
             this.reqInterceptor = axios.interceptors.request.use(req => {
                 this.setState({ error: null });
@@ -23,10 +25,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
         componentWillUnmount () {
             axios.interceptors.request.eject(this.reqInterceptor);
             axios.interceptors.response.eject(this.resInterceptor);
-        }
-
-        state = {
-            error: null
         }
 
         errorConfirmedHandler = () => {
